@@ -9,10 +9,10 @@ namespace Core
 {
     public class UserInfo
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public int QuestionID { get; set; }
-        public string Answer { get; set; }
+        public string UserName { get; internal set; }
+        public string Password { get; internal set; }
+        public int QuestionID { get; internal set; }
+        public string Answer { get; internal set; }
 
         public UserInfo(string username, string password)
         {
@@ -26,6 +26,8 @@ namespace Core
             Answer = answer;
         }
 
+        public string Status { get; internal set; }
+        internal bool IsLogin { get; set; } = false;
         internal CookieContainer Cookies { get; set; } = new CookieContainer();
     }
 }

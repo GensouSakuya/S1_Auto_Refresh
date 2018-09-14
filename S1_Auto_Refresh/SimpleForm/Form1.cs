@@ -13,9 +13,16 @@ namespace SimpleForm
 {
     public partial class Form1 : Form
     {
+        delegate void RefreshStatus();
+
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void RefreshStatusLabel()
+        {
+            label6.Text = refresher.User.Status + DateTime.Now.ToString("HH:mm:ss");
         }
 
         private Refresher refresher;
@@ -29,6 +36,13 @@ namespace SimpleForm
             }
 
             refresher.Start();
+            timer1.Start();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            var fun = new RefreshStatus(RefreshStatusLabel);
+            label6.Invoke(fun);
         }
     }
 }

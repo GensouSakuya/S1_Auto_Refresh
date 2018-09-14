@@ -9,7 +9,20 @@ namespace Core
 {
     public class Refresher
     {
-        private UserInfo _user { get; set; }
+        private UserInfo _user;
+
+        public UserInfo User
+        {
+            get
+            {
+                if (_user == null)
+                {
+                    throw new Exception("user is empty");
+                }
+                return _user;
+            }
+        }
+
         private volatile object lockObj = new object();
         private Thread _thread { get; set; }
         private bool _isStarted { get; set; } = false;
@@ -43,10 +56,23 @@ namespace Core
                 _isStarted = true;
                 _thread = new Thread(new ThreadStart(() =>
                 {
-                    S1Manager.Refresh(_user);
-                    Thread.Sleep(240000);
+                    while (true)
+                    {
+                        S1Manager.Refresh(_user);
+                        Thread.Sleep(240000);
+                    }
                 }));
                 _thread.Start();
+            }
+        }
+
+        public void Stop()
+        {
+            if (_isStarted)
+            {
+                _isStarted = false;
+                _thread.Abort();
+                _thread = null;
             }
         }
     }
