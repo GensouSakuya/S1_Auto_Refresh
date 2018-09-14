@@ -15,8 +15,8 @@ namespace Core
 
         public static void Login(UserInfo loginModel)
         {
-            HttpHelper.GetHtml(
-                $"http://bbs.saraba1st.com/2b/api/mobile/index.php?mobile=no&version=1&module=login&loginsubmit=yes&loginfield=auto&submodule=checkpost&username={loginModel.UserName}&password={loginModel.Password}&questionID={loginModel.QuestionID}&answer={loginModel.Answer}",
+            var res = HttpHelper.GetHtml(
+                $"http://bbs.saraba1st.com/2b/api/mobile/index.php?mobile=no&version=1&module=login&loginsubmit=yes&loginfield=auto&submodule=checkpost&username={loginModel.UserName}&password={loginModel.Password}&questionid={loginModel.QuestionID}&answer={loginModel.Answer}",
                 false, loginModel.Cookies);
         }
 
