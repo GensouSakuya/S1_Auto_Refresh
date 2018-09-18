@@ -27,6 +27,7 @@ namespace Core
         }
 
         public string Status { get; internal set; }
+        public DateTime LastRefreshTime { get; internal set; }
         internal bool IsLogin { get; set; } = false;
         internal CookieContainer Cookies { get; set; } = new CookieContainer();
     }

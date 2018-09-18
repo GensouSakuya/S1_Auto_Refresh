@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Core
 {
@@ -13,6 +14,8 @@ namespace Core
             {
                 Login(user);
             }
+
+            user.LastRefreshTime = DateTime.Now;
         }
 
         public static void Login(UserInfo user)
