@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LogManager.cs" />
     <Compile Include="QuestionModel.cs" />
     <Compile Include="Refresher.cs" />
     <Compile Include="HttpHelper.cs" />

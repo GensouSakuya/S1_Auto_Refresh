@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Core;
 using System.Windows.Forms;
 
@@ -38,19 +34,27 @@ namespace SimpleForm
             userDataGridView.MultiSelect = false;
             userDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             notifyIcon1.Visible = false;
+            stopButton.Enabled = false;
         }
         
         private void RefreshUserDataGridView()
         {
-            dataTable.Clear();
-            refreshers.ForEach(p =>
+            try
             {
-                var user = p.User;
-                var row = dataTable.Rows.Add();
-                row[0] = user.UserName;
-                row[1] = user.Status;
-                row[2] = user.LastRefreshTime == DateTime.MinValue ? "尚未开始" : user.LastRefreshTime.ToString("MM/dd HH:mm:ss");
-            });
+                dataTable.Clear();
+                refreshers.ForEach(p =>
+                {
+                    var user = p.User;
+                    var row = dataTable.Rows.Add();
+                    row[0] = user.UserName;
+                    row[1] = user.Status;
+                    row[2] = user.LastRefreshTime == DateTime.MinValue ? "尚未开始" : user.LastRefreshTime.ToString("MM/dd HH:mm:ss");
+                });
+            }
+            catch (Exception e)
+            {
+                FileLogHelper.WriteLog(e);
+            }
         }
         
         private void button1_Click(object sender, EventArgs e)
@@ -66,7 +70,7 @@ namespace SimpleForm
             }
 
             button1.Enabled = false;
-            button2.Enabled = true;
+            stopButton.Enabled = true;
             timer1.Start();
         }
 
@@ -115,7 +119,7 @@ namespace SimpleForm
             }
             timer1.Stop();
             button1.Enabled = true;
-            button2.Enabled = false;
+            stopButton.Enabled = false;
         }
 
         private void delButton_Click(object sender, EventArgs e)
@@ -148,6 +152,7 @@ namespace SimpleForm
                 WindowState = FormWindowState.Normal;
                 this.Activate();
                 this.ShowInTaskbar = true;
+                this.Visible = true;
                 notifyIcon1.Visible = false;
             }
         }
@@ -157,6 +162,7 @@ namespace SimpleForm
             if (WindowState == FormWindowState.Minimized)
             {
                 this.ShowInTaskbar = false;
+                this.Visible = false;
                 notifyIcon1.Visible = true;
             }
         }

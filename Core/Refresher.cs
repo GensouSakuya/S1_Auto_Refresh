@@ -26,6 +26,7 @@ namespace Core
         private volatile object lockObj = new object();
         private Thread _thread { get; set; }
         private bool _isStarted { get; set; } = false;
+        private DateTime _lastCollectTime { get; set; }
 
         private Thread MyThread
         {
@@ -54,12 +55,25 @@ namespace Core
             if (!_isStarted)
             {
                 _isStarted = true;
+                _lastCollectTime = DateTime.Now;
                 _thread = new Thread(new ThreadStart(() =>
                 {
                     while (true)
                     {
-                        S1Manager.Refresh(_user);
-                        Thread.Sleep(240000);
+                        try
+                        {
+                            S1Manager.Refresh(_user);
+                            Thread.Sleep(240000);
+                            if (DateTime.Now.Subtract(_lastCollectTime).Hours > 2)
+                            {
+                                _lastCollectTime = DateTime.Now;
+                                GC.Collect();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            FileLogHelper.WriteLog(e);
+                        }
                     }
                 }));
                 _thread.Start();

@@ -47,6 +47,10 @@ namespace Core
                     user.Status = "登录成功";
                     user.IsLogin = true;
                     break;
+                default:
+                    user.Status = "出现异常";
+                    user.IsLogin = false;
+                    break;
             }
         }
 

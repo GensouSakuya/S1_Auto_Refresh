@@ -36,7 +36,7 @@
             this.userDataGridView = new System.Windows.Forms.DataGridView();
             this.addUserButton = new System.Windows.Forms.Button();
             this.delButton = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.stopButton = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.userDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -97,21 +97,21 @@
             this.delButton.UseVisualStyleBackColor = true;
             this.delButton.Click += new System.EventHandler(this.delButton_Click);
             // 
-            // button2
+            // stopButton
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(326, 9);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(72, 39);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "停止";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.stopButton.Location = new System.Drawing.Point(326, 9);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(72, 39);
+            this.stopButton.TabIndex = 14;
+            this.stopButton.Text = "停止";
+            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.button2_Click);
             // 
             // notifyIcon1
             // 
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Text = "S1积分挂机器";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
@@ -120,14 +120,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(410, 396);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.stopButton);
             this.Controls.Add(this.delButton);
             this.Controls.Add(this.addUserButton);
             this.Controls.Add(this.userDataGridView);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.button1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "S1积分挂机器";
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.userDataGridView)).EndInit();
             this.ResumeLayout(false);
@@ -142,7 +143,7 @@
         private System.Windows.Forms.DataGridView userDataGridView;
         private System.Windows.Forms.Button addUserButton;
         private System.Windows.Forms.Button delButton;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }
