@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Linq;
 
 namespace Core
 {
@@ -17,7 +18,14 @@ namespace Core
 
             if (DateTime.Today.Subtract(user.LastCheckTime.Date).Days >= 1)
             {
-                Check(user);
+                html = HttpHelper.GetHtml("https://bbs.saraba1st.com/2b", true, user.Cookies);
+                if (HasCheck(html))
+                {
+                    var hashUrl = GetCheckFormHashUrl(html);
+                    Check(user, hashUrl);
+                }
+
+                SetCheckTime(user);
             }
 
             user.LastRefreshTime = DateTime.Now;
@@ -32,11 +40,13 @@ namespace Core
             SetStatus(result["Message"]["messageval"].ToString(), user);
         }
 
-        public static void Check(UserInfo user)
+        public static void Check(UserInfo user,string hashCheckUrl)
         {
-            HttpHelper.GetHtml(
-                $"https://bbs.saraba1st.com/2b/study_daily_attendance-daily_attendance.html?formhash=c471c84e",
-                true, user.Cookies);
+            HttpHelper.GetHtml($"https://bbs.saraba1st.com/2b/{hashCheckUrl}", true, user.Cookies);
+        }
+
+        public static void SetCheckTime(UserInfo user)
+        {
             user.LastCheckTime = DateTime.Now;
         }
 
@@ -77,6 +87,17 @@ namespace Core
         public static bool HasCheck(string html)
         {
             return html.Contains("打卡签到");
+        }
+
+        public static string GetCheckFormHashUrl(string html)
+        {
+            var checkHtml = html.Split('\n').Where(p => p.Contains("study_daily_attendance-daily_attendance.html")).FirstOrDefault()
+                ?.Split('"');
+            if (checkHtml.Count() > 2)
+            {
+                return checkHtml[1];
+            }
+            return null;
         }
     }
 }
