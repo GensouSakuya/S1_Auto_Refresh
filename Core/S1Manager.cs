@@ -15,6 +15,11 @@ namespace Core
                 Login(user);
             }
 
+            if (DateTime.Today.Subtract(user.LastCheckTime.Date).Days >= 1)
+            {
+                Check(user);
+            }
+
             user.LastRefreshTime = DateTime.Now;
         }
 
@@ -25,6 +30,14 @@ namespace Core
                 false, user.Cookies);
             var result = (JObject)JsonConvert.DeserializeObject(res);
             SetStatus(result["Message"]["messageval"].ToString(), user);
+        }
+
+        public static void Check(UserInfo user)
+        {
+            HttpHelper.GetHtml(
+                $"https://bbs.saraba1st.com/2b/study_daily_attendance-daily_attendance.html?formhash=c471c84e",
+                true, user.Cookies);
+            user.LastCheckTime = DateTime.Now;
         }
 
         public static void SetStatus(string message, UserInfo user)
@@ -59,6 +72,11 @@ namespace Core
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
             return doc.GetElementbyId("um") != null;
+        }
+
+        public static bool HasCheck(string html)
+        {
+            return html.Contains("打卡签到");
         }
     }
 }
