@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core
 {
@@ -13,6 +9,11 @@ namespace Core
         public string Password { get; internal set; }
         public int QuestionID { get; internal set; }
         public string Answer { get; internal set; }
+
+        public UserInfo()
+        {
+
+        }
 
         public UserInfo(string username, string password)
         {
@@ -29,7 +30,7 @@ namespace Core
         public string Status { get; internal set; }
         public DateTime LastRefreshTime { get; internal set; }
         internal bool IsLogin { get; set; } = false;
-        internal DateTime LastCheckTime { get; set; }
+        public DateTime LastCheckTime { get; internal set; }
         internal CookieContainer Cookies { get; set; } = new CookieContainer();
     }
 }

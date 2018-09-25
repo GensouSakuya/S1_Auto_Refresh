@@ -35,6 +35,9 @@ namespace SimpleForm
             userDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             notifyIcon1.Visible = false;
             stopButton.Enabled = false;
+
+            refreshers = S1Manager.GetUsersFromDB().Select(p => new Refresher(p.UserName, p.Password, p.QuestionID, p.Answer)).ToList();
+            RefreshUserDataGridView();
         }
         
         private void RefreshUserDataGridView()
@@ -76,16 +79,16 @@ namespace SimpleForm
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            var fun = new RefreshDataGrid(RefreshUserDataGridView);
-            userDataGridView.Invoke(fun);
+            RefreshDataGridView();
         }
 
         public void AddUser(string userName, string password, int questionID, string answer)
         {
-            refreshers.Add(new Refresher(userName, password, questionID, answer));
+            var refe = new Refresher(userName, password, questionID, answer);
+            refreshers.Add(refe);
+            S1Manager.AddUserToDB(refe.User);
 
-            var fun = new RefreshDataGrid(RefreshUserDataGridView);
-            userDataGridView.Invoke(fun);
+            RefreshDataGridView();
         }
 
         public bool IsUserExists(string userName)
@@ -139,9 +142,9 @@ namespace SimpleForm
             if (!string.IsNullOrWhiteSpace(selectedName))
             {
                 refreshers.RemoveAll(p => p.User.UserName == selectedName);
+                S1Manager.DelUserFromDB(selectedName);
 
-                var fun = new RefreshDataGrid(RefreshUserDataGridView);
-                userDataGridView.Invoke(fun);
+                RefreshDataGridView();
             }
         }
 
@@ -165,6 +168,12 @@ namespace SimpleForm
                 this.Visible = false;
                 notifyIcon1.Visible = true;
             }
+        }
+
+        private void RefreshDataGridView()
+        {
+            var fun = new RefreshDataGrid(RefreshUserDataGridView);
+            userDataGridView.Invoke(fun);
         }
     }
 }

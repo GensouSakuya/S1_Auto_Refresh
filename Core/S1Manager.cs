@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Core
@@ -48,6 +49,12 @@ namespace Core
         public static void SetCheckTime(UserInfo user)
         {
             user.LastCheckTime = DateTime.Now;
+            using (var db = new SQLiteDb())
+            {
+                var model = db.Set<UserInfo>().Where(p => p.UserName == user.UserName).FirstOrDefault();
+                model.LastCheckTime = user.LastCheckTime;
+                db.SaveChanges();
+            }
         }
 
         public static void SetStatus(string message, UserInfo user)
@@ -98,6 +105,35 @@ namespace Core
                 return checkHtml[1];
             }
             return null;
+        }
+
+        public static List<UserInfo> GetUsersFromDB()
+        {
+            using (var db = new SQLiteDb())
+            {
+                return db.Set<UserInfo>().ToList();
+            }
+        }
+
+        public static void AddUserToDB(UserInfo user)
+        {
+            using (var db = new SQLiteDb())
+            {
+                db.Set<UserInfo>().Add(user);
+                db.SaveChanges();
+            }
+        }
+
+        public static void DelUserFromDB(string userName)
+        {
+            using (var db = new SQLiteDb())
+            {
+                var user = db.Set<UserInfo>().Where(p => p.UserName == userName).FirstOrDefault();
+                if (user == null)
+                    return;
+                db.Set<UserInfo>().Remove(user);
+                db.SaveChanges();
+            }
         }
     }
 }
