@@ -26,7 +26,7 @@ namespace Core
                     st.Position = st.Length;
                     using (var sw = new StreamWriter(st))
                     {
-                        sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH-mm:ss.fff："));
+                        sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff："));
                         sw.WriteLine(log);
                         sw.WriteLine("===============================================================");
                     }
