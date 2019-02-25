@@ -9,6 +9,7 @@ namespace Core
 {
     public class S1Manager
     {
+        private static readonly string _attendanceMark = "study_daily_attendance:daily_attendance";
         public static void Refresh(UserInfo user)
         {
             var html = HttpHelper.GetHtml("https://bbs.saraba1st.com/2b", true, user.Cookies);
@@ -98,11 +99,12 @@ namespace Core
 
         public static string GetCheckFormHashUrl(string html)
         {
-            var checkHtml = html.Split('\n').Where(p => p.Contains("study_daily_attendance-daily_attendance.html")).FirstOrDefault()
+            var checkHtml = html.Split('\n').Where(p => p.Contains(_attendanceMark)).FirstOrDefault()
                 ?.Split('"');
-            if (checkHtml.Count() > 2)
+            var checkMatchedCount = checkHtml?.Count() ?? 0;
+            if (checkMatchedCount > 2)
             {
-                return checkHtml[1];
+                return System.Web.HttpUtility.HtmlDecode(checkHtml[1]); ;
             }
             return null;
         }
