@@ -9,6 +9,8 @@ namespace Core
 {
     public class Refresher
     {
+        private const int _maxRetryCount = 3;
+
         private UserInfo _user;
 
         public UserInfo User
@@ -62,13 +64,24 @@ namespace Core
                     {
                         try
                         {
-                            S1Manager.Refresh(_user);
-                            Thread.Sleep(240000);
+                            for (int retryCount = 0; retryCount < _maxRetryCount; retryCount++)
+                            {
+                                try
+                                {
+                                    S1Manager.Refresh(_user);
+                                    break;
+                                }
+                                catch (Exception e)
+                                {
+                                    FileLogHelper.WriteLog(e);
+                                }
+                            }
                             if (DateTime.Now.Subtract(_lastCollectTime).Hours > 2)
                             {
                                 _lastCollectTime = DateTime.Now;
                                 GC.Collect();
                             }
+                            Thread.Sleep(240000);
                         }
                         catch (Exception e)
                         {
