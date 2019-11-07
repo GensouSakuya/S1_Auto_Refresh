@@ -45,6 +45,9 @@ namespace Core
                 case ForumType.S1:
                     Manager = new S1Manager(User);
                     break;
+                case ForumType.漫画补档:
+                    Manager = new MHBDManager(User);
+                    break;
                 default:
                     throw new Exception("不支持的论坛类型");
             }

@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="Manager\BaseForumManager.cs" />
     <Compile Include="LogManager.cs" />
+    <Compile Include="Manager\MHBDManager.cs" />
     <Compile Include="QuestionModel.cs" />
     <Compile Include="Refresher.cs" />
     <Compile Include="HttpHelper.cs" />

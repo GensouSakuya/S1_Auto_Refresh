@@ -37,7 +37,8 @@ namespace SimpleForm
             notifyIcon1.Visible = false;
             stopButton.Enabled = false;
 
-            refreshers = S1Manager.GetUsersFromDB().Select(p => new Refresher(p.UserName, p.Password, p.QuestionID, p.Answer)).ToList();
+            refreshers = S1Manager.GetUsersFromDB().Select(p => new Refresher(p.UserName, p.Password, p.QuestionID, p.Answer, p.FromForum))
+                .ToList();
             RefreshUserDataGridView();
         }
         

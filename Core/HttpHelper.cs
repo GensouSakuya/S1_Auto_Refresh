@@ -1,11 +1,12 @@
 ﻿using System.IO;
 using System.Net;
+using System.Text;
 
 namespace Core
 {
     public class HttpHelper
     {
-        public static string GetHtml(string url,bool isGet, CookieContainer cookies)
+        public static string GetHtml(string url,bool isGet, CookieContainer cookies,string body = null)
         {
             var req = (HttpWebRequest)WebRequest.Create(url);
 
@@ -19,6 +20,16 @@ namespace Core
             }
 
             req.Method = isGet ? "GET" : "POST";
+            if (!isGet && body != null)
+            {
+                byte[] bs = Encoding.ASCII.GetBytes(body);
+                req.ContentType = "application/x-www-form-urlencoded";
+                req.ContentLength = bs.Length;
+                using (Stream reqStream = req.GetRequestStream())
+                {
+                    reqStream.Write(bs, 0, bs.Length);
+                }
+            }
 
             var res = (HttpWebResponse)req.GetResponse();
             string html = "";
