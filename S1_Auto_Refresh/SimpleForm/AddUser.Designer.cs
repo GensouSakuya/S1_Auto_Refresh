@@ -40,6 +40,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.questionModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.questionBox = new System.Windows.Forms.ComboBox();
+            this.forumTypeBox = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.questionModelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -104,7 +106,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(144, 165);
+            this.button1.Location = new System.Drawing.Point(144, 198);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(103, 33);
             this.button1.TabIndex = 17;
@@ -114,7 +116,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(16, 165);
+            this.button2.Location = new System.Drawing.Point(16, 198);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(103, 33);
             this.button2.TabIndex = 18;
@@ -137,13 +139,39 @@
             this.questionBox.Size = new System.Drawing.Size(162, 23);
             this.questionBox.TabIndex = 20;
             this.questionBox.ValueMember = "ID";
+            this.questionBox.SelectedIndexChanged += new System.EventHandler(this.QuestionBox_SelectedIndexChanged);
+            // 
+            // forumTypeBox
+            // 
+            this.forumTypeBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.questionModelBindingSource, "ID", true));
+            this.forumTypeBox.DataSource = this.questionModelBindingSource;
+            this.forumTypeBox.DisplayMember = "Text";
+            this.forumTypeBox.FormattingEnabled = true;
+            this.forumTypeBox.Location = new System.Drawing.Point(85, 156);
+            this.forumTypeBox.Name = "forumTypeBox";
+            this.forumTypeBox.Size = new System.Drawing.Size(162, 23);
+            this.forumTypeBox.TabIndex = 22;
+            this.forumTypeBox.ValueMember = "ID";
+            this.forumTypeBox.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 159);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(37, 15);
+            this.label5.TabIndex = 21;
+            this.label5.Text = "论坛";
+            this.label5.Click += new System.EventHandler(this.Label5_Click);
             // 
             // AddUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(264, 210);
+            this.ClientSize = new System.Drawing.Size(264, 243);
             this.ControlBox = false;
+            this.Controls.Add(this.forumTypeBox);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.questionBox);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -180,5 +208,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.BindingSource questionModelBindingSource;
         private System.Windows.Forms.ComboBox questionBox;
+        private System.Windows.Forms.ComboBox forumTypeBox;
+        private System.Windows.Forms.Label label5;
     }
 }

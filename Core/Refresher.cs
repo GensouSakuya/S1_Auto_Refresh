@@ -11,19 +11,9 @@ namespace Core
     {
         private const int _maxRetryCount = 3;
 
-        private UserInfo _user;
+        private BaseForumManager Manager;
 
-        public UserInfo User
-        {
-            get
-            {
-                if (_user == null)
-                {
-                    throw new Exception("user is empty");
-                }
-                return _user;
-            }
-        }
+        public readonly UserInfo User;
 
         private volatile object lockObj = new object();
         private Thread _thread { get; set; }
@@ -47,9 +37,17 @@ namespace Core
             }
         }
 
-        public Refresher(string username, string password, int questionID = 0, string answer = null)
+        public Refresher(string username, string password, int questionID = 0, string answer = null,ForumType type = ForumType.S1)
         {
-            _user = new UserInfo(username, password, questionID, answer);
+            User = new UserInfo(username, password, questionID, answer, type);
+            switch (type)
+            {
+                case ForumType.S1:
+                    Manager = new S1Manager(User);
+                    break;
+                default:
+                    throw new Exception("不支持的论坛类型");
+            }
         }
 
         public void Start()
@@ -68,7 +66,7 @@ namespace Core
                             {
                                 try
                                 {
-                                    S1Manager.Refresh(_user);
+                                    Manager.Process();
                                     break;
                                 }
                                 catch (Exception e)

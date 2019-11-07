@@ -9,19 +9,21 @@ namespace Core
         public string Password { get; internal set; }
         public int QuestionID { get; internal set; }
         public string Answer { get; internal set; }
+        public ForumType FromForum { get; internal set; }
 
         public UserInfo()
         {
 
         }
 
-        public UserInfo(string username, string password)
+        public UserInfo(string username, string password, ForumType type)
         {
             UserName = username;
             Password = password;
+            FromForum = type;
         }
 
-        public UserInfo(string username, string password, int questionID, string answer) : this(username, password)
+        public UserInfo(string username, string password, int questionID, string answer, ForumType type) : this(username, password, type)
         {
             QuestionID = questionID;
             Answer = answer;

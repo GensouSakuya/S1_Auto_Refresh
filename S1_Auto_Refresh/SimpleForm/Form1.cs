@@ -21,6 +21,7 @@ namespace SimpleForm
             InitializeComponent();
             dataTable = new DataTable();
             dataTable.Columns.Add("用户名");
+            dataTable.Columns.Add("论坛");
             dataTable.Columns.Add("当前状态");
             dataTable.Columns.Add("上次连接时间");
             userDataGridView.DataSource = dataTable;
@@ -50,8 +51,9 @@ namespace SimpleForm
                     var user = p.User;
                     var row = dataTable.Rows.Add();
                     row[0] = user.UserName;
-                    row[1] = user.Status;
-                    row[2] = user.LastRefreshTime == DateTime.MinValue ? "尚未开始" : user.LastRefreshTime.ToString("MM/dd HH:mm:ss");
+                    row[1] = user.FromForum.ToString();
+                    row[2] = user.Status;
+                    row[3] = user.LastRefreshTime == DateTime.MinValue ? "尚未开始" : user.LastRefreshTime.ToString("MM/dd HH:mm:ss");
                 });
             }
             catch (Exception e)
@@ -82,18 +84,18 @@ namespace SimpleForm
             RefreshDataGridView();
         }
 
-        public void AddUser(string userName, string password, int questionID, string answer)
+        public void AddUser(string userName, string password, int questionID, string answer, ForumType type)
         {
-            var refe = new Refresher(userName, password, questionID, answer);
+            var refe = new Refresher(userName, password, questionID, answer, type);
             refreshers.Add(refe);
             S1Manager.AddUserToDB(refe.User);
 
             RefreshDataGridView();
         }
 
-        public bool IsUserExists(string userName)
+        public bool IsUserExists(string userName, ForumType type)
         {
-            return refreshers.Any(p => p.User.UserName == userName);
+            return refreshers.Any(p => p.User.UserName == userName && p.User.FromForum == type);
         }
 
         private void addUserButton_Click(object sender, EventArgs e)
