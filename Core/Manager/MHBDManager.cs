@@ -58,7 +58,7 @@ namespace Core
                 if (HasCheck(html))
                 {
                     var hashUrl = GetCheckFormHashUrl(html);
-                    HttpHelper.GetHtml($"https://www.manhuabudang.com/jobcenter.php?", false, _user.Cookies,$"action=punch&verify={hashUrl}");
+                    HttpHelper.GetHtml($"https://www.manhuabudang.com/jobcenter.php?action=punch&verify={hashUrl}&step=2", false, _user.Cookies);
                 }
                 SetCheckTime(_user);
                 _user.LastRefreshTime = DateTime.Now;
@@ -82,9 +82,10 @@ namespace Core
             }
         }
 
+        public readonly static Regex CheckRegex = new Regex(@"punchJob\([0-9]+\)");
         public static bool HasCheck(string html)
         {
-            return html.Contains("punchJob(2);");
+            return CheckRegex.IsMatch(html);// html.Contains("punchJob(2);");
         }
 
         public static string GetCheckFormHashUrl(string html)
