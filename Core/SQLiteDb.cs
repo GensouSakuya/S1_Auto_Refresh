@@ -22,7 +22,10 @@
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserInfo>().ToTable("UserInfo");
-            modelBuilder.Entity<UserInfo>().HasKey(p => p.UserName);
+            modelBuilder.Entity<UserInfo>().HasKey(p => new
+            {
+                p.UserName, p.FromForum
+            });
             modelBuilder.Entity<UserInfo>().Ignore(p => p.Status).Ignore(p => p.LastRefreshTime);
             Database.SetInitializer<SQLiteDb>(new Createtable(modelBuilder));
         }
