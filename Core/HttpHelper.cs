@@ -6,7 +6,7 @@ namespace Core
 {
     public class HttpHelper
     {
-        public static string GetHtml(string url,bool isGet, CookieContainer cookies,string body = null)
+        public static string GetHtml(string url,bool isGet, CookieContainer cookies,string body = null, CustomEncoding encoding =CustomEncoding.UTF8 )
         {
             var req = (HttpWebRequest)WebRequest.Create(url);
 
@@ -35,7 +35,7 @@ namespace Core
             string html = "";
             using (var st = res.GetResponseStream())
             {
-                var reader = new StreamReader(st, System.Text.Encoding.UTF8);
+                var reader = new StreamReader(st, encoding.GetEncoding());
                 html = reader.ReadToEnd();
             }
             if (cookies.Count == 0)
@@ -47,6 +47,28 @@ namespace Core
             }
 
             return html;
+        }
+    }
+
+    public enum CustomEncoding
+    {
+        UTF8=1,
+        GBK=2
+    }
+
+    public static class CustomEncoudingExtension
+    {
+        public static Encoding GetEncoding(this CustomEncoding encoding)
+        {
+            switch (encoding)
+            {
+                case CustomEncoding.GBK:
+                    return Encoding.GetEncoding("GBK");
+                case CustomEncoding.UTF8:
+                    return Encoding.UTF8;
+            }
+
+            throw new System.Exception("不支持指定编码");
         }
     }
 }
