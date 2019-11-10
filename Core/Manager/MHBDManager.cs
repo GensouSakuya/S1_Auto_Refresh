@@ -15,7 +15,6 @@ namespace Core
             _user = user;
         }
         private readonly UserInfo _user;
-        private static readonly List<string> _attendanceMark = new List<string>{ "study_daily_attendance-daily_attendance.html", "study_daily_attendance:daily_attendance" };
 
         public override int IntervalSeconds => 240000;
 
@@ -25,7 +24,7 @@ namespace Core
         {
             get
             {
-                var html = HttpHelper.GetHtml("https://www.manhuabudang.com/index.php", true, _user.Cookies);
+                var html = HttpHelper.GetHtml("https://www.manhuabudang.com/index.php", true, _user.Cookies,encoding:CustomEncoding.GBK);
                 return html.Contains(_user.UserName);
                 //var doc = new HtmlDocument();
                 //doc.LoadHtml(html);
@@ -36,7 +35,7 @@ namespace Core
         public override void Login()
         {
             var res = HttpHelper.GetHtml($"https://www.manhuabudang.com/login.php?", false, _user.Cookies,
-                $"forward=&jumpurl=https%3A%2F%2Fwww.manhuabudang.com%2Findex.php&step=2&lgt=0&pwuser={_user.UserName}&pwpwd={_user.Password}&question=0&customquest=&answer=&hideid=0&cktime=31536000&submit=");
+                $"forward=&jumpurl=https%3A%2F%2Fwww.manhuabudang.com%2Findex.php&step=2&lgt=0&pwuser={_user.UserName}&pwpwd={_user.Password}&question=0&customquest=&answer=&hideid=0&cktime=31536000&submit=", encoding: CustomEncoding.GBK);
 
             if (IsLogin)
             {
@@ -54,11 +53,11 @@ namespace Core
         {
             try
             {
-                var html = HttpHelper.GetHtml("https://www.manhuabudang.com/u.php", true, _user.Cookies);
+                var html = HttpHelper.GetHtml("https://www.manhuabudang.com/u.php", true, _user.Cookies, encoding: CustomEncoding.GBK);
                 if (HasCheck(html))
                 {
                     var hashUrl = GetCheckFormHashUrl(html);
-                    HttpHelper.GetHtml($"https://www.manhuabudang.com/jobcenter.php?action=punch&verify={hashUrl}&step=2", false, _user.Cookies);
+                    HttpHelper.GetHtml($"https://www.manhuabudang.com/jobcenter.php?action=punch&verify={hashUrl}&step=2", false, _user.Cookies, encoding: CustomEncoding.GBK);
                 }
                 SetCheckTime(_user);
                 _user.LastRefreshTime = DateTime.Now;
