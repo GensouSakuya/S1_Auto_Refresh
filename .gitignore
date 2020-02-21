@@ -6,3 +6,5 @@
 bin
 obj
 /S1_Auto_Refresh/packages
+PublishProfiles/
+*.user
