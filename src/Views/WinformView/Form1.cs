@@ -10,11 +10,11 @@ namespace SimpleForm
     public partial class Form1 : Form
     {
         public KeeperCore _core { get; private set; }
-        private List<UserInfo> _users = new List<UserInfo>();
+        private List<User> _users = new List<User>();
         private DataTable dataTable;
 
         private bool IsRefreshing = false;
-        
+
         delegate void RefreshDataGrid();
 
         public Form1()
@@ -53,7 +53,7 @@ namespace SimpleForm
 
             RefreshUserDataGridView();
         }
-        
+
         private void RefreshUserDataGridView()
         {
             try
@@ -66,7 +66,8 @@ namespace SimpleForm
                     row[0] = user.UserName;
                     row[1] = user.KeeperName;
                     row[2] = user.KeeperModel?.Message;
-                    row[3] = user.LastRefreshTime == DateTime.MinValue ? "尚未开始" : user.LastRefreshTime.ToString("MM/dd HH:mm:ss");
+                    var time = user.KeeperModel?.Keeper?.LastRefreshTime;
+                    row[3] = !time.HasValue || time == DateTime.MinValue ? "尚未开始" : time.Value.ToString("MM/dd HH:mm:ss");
                 });
             }
             catch (Exception e)
@@ -74,18 +75,21 @@ namespace SimpleForm
                 FileLogHelper.WriteLog(e);
             }
         }
-        
+
         private void button1_Click(object sender, EventArgs e)
         {
             if (IsRefreshing)
             {
                 return;
             }
-            if (_users.Any())
+
+            if (!_users.Any())
             {
-                IsRefreshing = true;
-                _core.Start();
+                return;
             }
+            IsRefreshing = true;
+            _core.Start();
+
 
             button1.Enabled = false;
             stopButton.Enabled = true;
@@ -97,11 +101,15 @@ namespace SimpleForm
             RefreshDataGridView();
         }
 
-        public void AddUser(string userName, string password, int questionID, string answer, ForumType type)
+        public void AddUser(string userName, string password, int questionID, string answer, string keeperKey)
         {
-            var refe = new Refresher(userName, password, questionID, answer, type);
-            _users.Add(refe);
-            S1Manager.AddUserToDB(refe.User);
+            var user = new User(userName, password, questionID, answer, keeperKey);
+            _users.Add(user);
+            var keeper = _core.AddKeeper(keeperKey, user.ToInitKey());
+            user.KeeperModel = keeper;
+            user.KeeperInitKey = user.ToInitKey();
+            user.KeeperName = _core.LoadedKeepers.Find(p => p.Key == keeperKey)?.Name;
+            UserManager.AddUserToDB(user);
 
             RefreshDataGridView();
         }

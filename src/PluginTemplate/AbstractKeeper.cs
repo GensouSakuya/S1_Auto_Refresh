@@ -32,7 +32,7 @@ namespace PluginTemplate
             try
             {
                 KeepOnline();
-                _lastRefreshTime = DateTime.Now;
+                LastRefreshTime = DateTime.Now;
             }
             catch (Exception e)
             {
@@ -40,7 +40,7 @@ namespace PluginTemplate
             }
         }
 
-        protected DateTime _lastRefreshTime;
+        public DateTime LastRefreshTime { get; protected set; }
         #endregion
 
         #region CheckIn

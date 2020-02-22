@@ -126,7 +126,7 @@
             // 
             // questionModelBindingSource
             // 
-            this.questionModelBindingSource.DataSource = typeof(Core.QuestionModel);
+            this.questionModelBindingSource.DataSource = typeof(QuestionModel);
             // 
             // questionBox
             // 

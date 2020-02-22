@@ -6,7 +6,7 @@ namespace SimpleForm
 {
     public class FileLogHelper
     {
-        private static readonly string _logFileName = $"log{DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")}.txt";
+        private static readonly string _logFileName = $"log{DateTime.Today.ToString("yyyy-MM-dd")}.txt";
         private static volatile object fileLock = new object();
 
         public static void WriteLog(string log)

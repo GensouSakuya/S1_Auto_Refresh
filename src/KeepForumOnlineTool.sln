@@ -5,19 +5,19 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{FCF150A1-B755-4B3F-9A8B-45B047E38183}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginTemplate", "PluginTemplate\PluginTemplate.csproj", "{83890128-052C-44DF-AAE5-8B4B393AC5C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginTemplate", "PluginTemplate\PluginTemplate.csproj", "{83890128-052C-44DF-AAE5-8B4B393AC5C0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MyPlugins", "MyPlugins", "{8FC91327-82DD-43C5-A262-68C75B3FEF63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleView", "Views\ConsoleView\ConsoleView.csproj", "{C0F997B6-67A9-44DC-8DAA-B776AB7A5B66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleView", "Views\ConsoleView\ConsoleView.csproj", "{C0F997B6-67A9-44DC-8DAA-B776AB7A5B66}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Views", "Views", "{3FF4A585-0087-466F-99E2-1E6F03541DCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins.ManHuaBuDang", "MyPlugins\Plugins.ManHuaBuDang\Plugins.ManHuaBuDang.csproj", "{51382800-3F21-49B6-8C6E-832A2E43E5DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plugins.ManHuaBuDang", "MyPlugins\Plugins.ManHuaBuDang\Plugins.ManHuaBuDang.csproj", "{51382800-3F21-49B6-8C6E-832A2E43E5DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins.S1", "MyPlugins\Plugins.S1\Plugins.S1.csproj", "{E16D3B6E-94A0-401B-A947-31B62C4A8876}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plugins.S1", "MyPlugins\Plugins.S1\Plugins.S1.csproj", "{E16D3B6E-94A0-401B-A947-31B62C4A8876}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformForumView", "Views\WinformView\WinformForumView.csproj", "{5339B20F-9FF1-46CC-ADDC-FC2C15C42574}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForumTool.Winform", "Views\WinformView\ForumTool.Winform.csproj", "{85166D43-D505-4C2F-9459-911E84603B6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +45,10 @@ Global
 		{E16D3B6E-94A0-401B-A947-31B62C4A8876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E16D3B6E-94A0-401B-A947-31B62C4A8876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E16D3B6E-94A0-401B-A947-31B62C4A8876}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5339B20F-9FF1-46CC-ADDC-FC2C15C42574}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5339B20F-9FF1-46CC-ADDC-FC2C15C42574}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5339B20F-9FF1-46CC-ADDC-FC2C15C42574}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5339B20F-9FF1-46CC-ADDC-FC2C15C42574}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85166D43-D505-4C2F-9459-911E84603B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85166D43-D505-4C2F-9459-911E84603B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85166D43-D505-4C2F-9459-911E84603B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85166D43-D505-4C2F-9459-911E84603B6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,7 +57,7 @@ Global
 		{C0F997B6-67A9-44DC-8DAA-B776AB7A5B66} = {3FF4A585-0087-466F-99E2-1E6F03541DCE}
 		{51382800-3F21-49B6-8C6E-832A2E43E5DC} = {8FC91327-82DD-43C5-A262-68C75B3FEF63}
 		{E16D3B6E-94A0-401B-A947-31B62C4A8876} = {8FC91327-82DD-43C5-A262-68C75B3FEF63}
-		{5339B20F-9FF1-46CC-ADDC-FC2C15C42574} = {3FF4A585-0087-466F-99E2-1E6F03541DCE}
+		{85166D43-D505-4C2F-9459-911E84603B6F} = {3FF4A585-0087-466F-99E2-1E6F03541DCE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {473CDE24-4D30-4A9D-831E-EAD5C6100A07}

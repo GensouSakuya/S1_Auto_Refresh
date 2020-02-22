@@ -25,6 +25,14 @@ namespace PluginTemplate
             public int QuestionID { get; set; }
             public string Answer { get; set; }
 
+            public UserInfo(UserInfo user)
+            {
+                UserName = user.UserName;
+                Password = user.Password;
+                QuestionID = user.QuestionID;
+                Answer = user.Answer;
+            }
+
             public UserInfo()
             {
 
@@ -42,7 +50,13 @@ namespace PluginTemplate
                 Answer = answer;
             }
 
+            [JsonIgnore]
             public CookieContainer Cookies { get; set; } = new CookieContainer();
+
+            public string ToInitKey()
+            {
+                return JsonConvert.SerializeObject(new UserInfo(this));
+            }
         }
 
     }
