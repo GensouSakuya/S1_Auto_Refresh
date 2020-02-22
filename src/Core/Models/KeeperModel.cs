@@ -1,12 +1,12 @@
 ﻿using PluginTemplate;
-using System;
+using System.Collections.Generic;
 
 namespace Core.Models
 {
-    internal class KeeperModel
+    public class KeeperModel
     {
-        public string Key { get; set; }
-        public string InitKey { get; set; }
+        public string Key { get; internal set; }
+        public string InitKey { get; internal set; }
         public AbstractKeeper Keeper { get; internal set; }
         public string Message => Keeper?.Message;
 
@@ -19,7 +19,10 @@ namespace Core.Models
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Key, InitKey);
+            var hashCode = 6905750;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Key);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(InitKey);
+            return hashCode;
         }
     }
 }

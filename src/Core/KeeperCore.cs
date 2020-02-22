@@ -12,10 +12,16 @@ namespace Core
             PluginHelper.Init(Configurations.PluginsPath);
         }
 
-        private List<KeeperModel> _keeperInfos = new List<KeeperModel>();
+        public List<KeeperInfoModel> LoadedKeepers =>
+            PluginHelper.LoadedPlugins.Select(p => new KeeperInfoModel
+            {
+                Key = p.Key, Name = p.Name
+            }).ToList();
+
+        public List<KeeperModel> KeeperInfos { get; } = new List<KeeperModel>();
         private static object _runningLock = new object();
         
-        public void AddKeeper(string key,string initKey)
+        public KeeperModel AddKeeper(string key,string initKey)
         {
             lock (_runningLock)
             {
@@ -34,12 +40,14 @@ namespace Core
                 {
                     Key = key, InitKey = initKey
                 };
-                if (_keeperInfos.Any(p => p.Equals(newKeeper)))
+                if (KeeperInfos.Any(p => p.Equals(newKeeper)))
                 {
                     throw new InvalidOperationException("the keeper is existed");
                 }
 
-                _keeperInfos.Add(newKeeper);
+                KeeperInfos.Add(newKeeper);
+
+                return newKeeper;
             }
         }
 
@@ -52,7 +60,7 @@ namespace Core
                     throw new InvalidOperationException("Cannot operate during runnning");
                 }
 
-                _keeperInfos.RemoveAll(p => p.Key == key && p.InitKey == initKey);
+                KeeperInfos.RemoveAll(p => p.Key == key && p.InitKey == initKey);
             }
         }
 
@@ -65,7 +73,7 @@ namespace Core
                     throw new InvalidOperationException("Cannot operate during runnning");
                 }
 
-                _keeperInfos.Clear();
+                KeeperInfos.Clear();
             }
         }
 
@@ -73,8 +81,8 @@ namespace Core
 
         private void PrepareKeeper()
         {
-            _keeperInfos.ForEach(p => p.Keeper = null);
-            _keeperInfos.ForEach(p =>
+            KeeperInfos.ForEach(p => p.Keeper = null);
+            KeeperInfos.ForEach(p =>
             {
                 try
                 {
@@ -100,7 +108,7 @@ namespace Core
                 {
                     IsRunning = true;
                     PrepareKeeper();
-                    _keeperInfos.ForEach(p => p.Keeper?.Start());
+                    KeeperInfos.ForEach(p => p.Keeper?.Start());
                 }
             }
         }
@@ -111,7 +119,7 @@ namespace Core
             {
                 if (IsRunning)
                 {
-                    _keeperInfos.ForEach(p => p.Keeper?.Stop());
+                    KeeperInfos.ForEach(p => p.Keeper?.Stop());
                     IsRunning = false;
                 }
             }

@@ -9,10 +9,9 @@ namespace Core
 {
     internal class PluginHelper
     {
-        private static List<PluginModel> _plugins;
         public static void Init(string path)
         {
-            _plugins = GetPlugins(path);
+            LoadedPlugins = GetPlugins(path);
         }
 
         public static List<PluginModel> GetPlugins(string path)
@@ -28,7 +27,7 @@ namespace Core
                 try
                 {
                     var assembly = Assembly.LoadFile(Path.GetFullPath(p));
-                    var keeperTypes = assembly.DefinedTypes.Where(p => p.IsSubclassOf(typeof(AbstractKeeper))).ToList();
+                    var keeperTypes = assembly.DefinedTypes.Where(t => t.IsSubclassOf(typeof(AbstractKeeper))).ToList();
                     if (keeperTypes.Any())
                     {
                         keeperTypes.ForEach(kT =>
@@ -52,7 +51,7 @@ namespace Core
 
         public static PluginModel Find(string key)
         {
-            return _plugins?.Find(p => p.Key == key);
+            return LoadedPlugins?.Find(p => p.Key == key);
         }
 
         public static AbstractKeeper GetKeepper(PluginModel plugin, string initKey)
@@ -62,12 +61,14 @@ namespace Core
                 initKey
             });
         }
+
+        public static List<PluginModel> LoadedPlugins { get; private set; }
     }
 
     public class PluginModel
     {
-        public string Key { get; set; }
-        public string Name { get; set; }
-        public Type Type { get; set; }
+        public string Key { get; internal set; }
+        public string Name { get; internal set; }
+        public Type Type { get; internal set; }
     }
 }
