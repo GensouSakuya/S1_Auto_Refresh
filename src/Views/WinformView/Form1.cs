@@ -52,6 +52,11 @@ namespace SimpleForm
             //todo users to keepers
 
             RefreshUserDataGridView();
+
+            FormClosed += delegate
+            {
+                System.Environment.Exit(0);
+            };
         }
 
         private void RefreshUserDataGridView()

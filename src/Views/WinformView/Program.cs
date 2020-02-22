@@ -15,10 +15,7 @@ namespace SimpleForm
         [STAThread]
         static void Main()
         {
-            var _ = typeof(System.Runtime.AssemblyTargetedPatchBandAttribute);
-            StreamWriter.Null.WriteLine(_);
-            _ = typeof(System.Net.Http.ByteArrayContent);
-            StreamWriter.Null.WriteLine(_);
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
