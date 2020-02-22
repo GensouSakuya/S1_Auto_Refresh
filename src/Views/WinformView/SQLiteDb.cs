@@ -1,21 +1,70 @@
-﻿using Core.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using SQLite.CodeFirst;
+using System;
+using System.Data.Common;
+using System.Data.Entity;
+using System.Data.Entity.Core.Common;
+using System.Data.Entity.Infrastructure;
+using System.Data.SQLite;
+using System.Data.SQLite.EF6;
 using System.IO;
+using System.Linq;
 
-namespace Core
+namespace SimpleForm
 {
 
+    [DbConfigurationType(typeof(SQLiteConfiguration))]
     public class SQLiteDb : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite($"Data Source={Directory.GetCurrentDirectory()}\\keepers.db;Version=3;");
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public SQLiteDb() : base($"Data Source={Directory.GetCurrentDirectory()}\\user.db;Version=3;")
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<KeeperModel>().HasKey(p => p.Id);
-            modelBuilder.Entity<KeeperModel>().Property(p => p.Key);
-            modelBuilder.Entity<KeeperModel>().Property(p => p.InitKey);
+        }
+
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserInfo>().ToTable("UserKeeperInfo");
+            modelBuilder.Entity<UserInfo>().HasKey(p => new
+            {
+                p.KeeperKey,
+                p.KeeperInitKey
+            });
+            modelBuilder.Entity<UserInfo>().Ignore(p => p.Status).Ignore(p => p.LastRefreshTime);
+            Database.SetInitializer(new Createtable(modelBuilder));
+        }
+
+        private Type StupidMethodForCopySqliteEF6()
+        {
+            return SQLiteProviderFactory.Instance.GetType();
+        }
+    }
+
+    public class Createtable : SqliteCreateDatabaseIfNotExists<SQLiteDb>
+    {
+        public Createtable(DbModelBuilder modelBuilder) : base(modelBuilder)
+        { }
+        protected override void Seed(SQLiteDb context)
+        {
+        }
+    }
+
+    public class SQLiteConfiguration : DbConfiguration
+    {
+        public SQLiteConfiguration()
+        {
+            SetDefaultConnectionFactory(new SQLiteConnectionFactory());
+            SetProviderFactory("System.Data.SQLite.EF6", new SQLiteFactory());
+            SetProviderFactory("System.Data.SQLite.EF6", new SQLiteProviderFactory());
+
+            var EF6ProviderServicesType = typeof(SQLiteProviderFactory).Assembly.DefinedTypes.First(x => x.Name == "SQLiteProviderServices");
+            var EF6ProviderServices = (DbProviderServices)Activator.CreateInstance(EF6ProviderServicesType);
+            SetProviderServices("System.Data.SQLite.EF6", EF6ProviderServices);
+        }
+    }
+    public class SQLiteConnectionFactory : IDbConnectionFactory
+    {
+        public DbConnection CreateConnection(string connectionString)
+        {
+            return new SQLiteConnection(connectionString);
         }
     }
 }

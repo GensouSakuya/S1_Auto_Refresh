@@ -21,15 +21,11 @@ namespace SimpleForm
             _parent = parent;
             questionBox.DataSource = QuestionModel.AllQuestions();
             questionBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            forumTypeBox.DataSource = new List<object>
+
+            forumTypeBox.DataSource = _parent._core.LoadedKeepers.Select(p => new
             {
-                new{
-                    ID=(int) ForumType.S1,Text= ForumType.S1.ToString()
-                },
-                new{
-                    ID =(int) ForumType.漫画补档, Text = ForumType.漫画补档.ToString()
-                }
-            };
+                ID = p.Key, Text = p.Name
+            }).ToList();
             forumTypeBox.DropDownStyle = ComboBoxStyle.DropDownList;
         }
         
@@ -40,7 +36,7 @@ namespace SimpleForm
             {
                 MessageBox.Show("请输入用户名");
             }
-            var forumType = (ForumType)forumTypeBox.SelectedValue;
+            var forumType = (string)forumTypeBox.SelectedValue;
             if (_parent.IsUserExists(userName, forumType))
             {
                 MessageBox.Show("用户已存在");

@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins.ManHuaBuDang", "MyP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins.S1", "MyPlugins\Plugins.S1\Plugins.S1.csproj", "{E16D3B6E-94A0-401B-A947-31B62C4A8876}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformView", "Views\WinformView\WinformView.csproj", "{5339B20F-9FF1-46CC-ADDC-FC2C15C42574}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformForumView", "Views\WinformView\WinformForumView.csproj", "{5339B20F-9FF1-46CC-ADDC-FC2C15C42574}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

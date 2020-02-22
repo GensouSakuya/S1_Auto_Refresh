@@ -9,7 +9,8 @@ namespace SimpleForm
 {
     public partial class Form1 : Form
     {
-        private List<Refresher> refreshers = new List<Refresher>();
+        public KeeperCore _core { get; private set; }
+        private List<UserInfo> _users = new List<UserInfo>();
         private DataTable dataTable;
 
         private bool IsRefreshing = false;
@@ -37,8 +38,19 @@ namespace SimpleForm
             notifyIcon1.Visible = false;
             stopButton.Enabled = false;
 
-            refreshers = S1Manager.GetUsersFromDB().Select(p => new Refresher(p.UserName, p.Password, p.QuestionID, p.Answer, p.FromForum))
-                .ToList();
+            _core = new KeeperCore();
+
+            _users = UserManager.GetUsersFromDb();
+            _users.ForEach(p =>
+            {
+                var model = _core.AddKeeper(p.KeeperKey, p.KeeperInitKey);
+                p.KeeperModel = model;
+                p.KeeperKey = model.Key;
+                p.KeeperInitKey = model.InitKey;
+                p.KeeperName = _core.LoadedKeepers.Find(q => q.Key == model.Key)?.Name;
+            });
+            //todo users to keepers
+
             RefreshUserDataGridView();
         }
         
@@ -47,13 +59,13 @@ namespace SimpleForm
             try
             {
                 dataTable.Clear();
-                refreshers.ForEach(p =>
+                _users.ForEach(p =>
                 {
-                    var user = p.User;
+                    var user = p;
                     var row = dataTable.Rows.Add();
                     row[0] = user.UserName;
-                    row[1] = user.FromForum.ToString();
-                    row[2] = user.Status;
+                    row[1] = user.KeeperName;
+                    row[2] = user.KeeperModel?.Message;
                     row[3] = user.LastRefreshTime == DateTime.MinValue ? "尚未开始" : user.LastRefreshTime.ToString("MM/dd HH:mm:ss");
                 });
             }
@@ -69,10 +81,10 @@ namespace SimpleForm
             {
                 return;
             }
-            if (refreshers.Any())
+            if (_users.Any())
             {
                 IsRefreshing = true;
-                refreshers.ForEach(p => p.Start());
+                _core.Start();
             }
 
             button1.Enabled = false;
@@ -88,15 +100,15 @@ namespace SimpleForm
         public void AddUser(string userName, string password, int questionID, string answer, ForumType type)
         {
             var refe = new Refresher(userName, password, questionID, answer, type);
-            refreshers.Add(refe);
+            _users.Add(refe);
             S1Manager.AddUserToDB(refe.User);
 
             RefreshDataGridView();
         }
 
-        public bool IsUserExists(string userName, ForumType type)
+        public bool IsUserExists(string userName, string key)
         {
-            return refreshers.Any(p => p.User.UserName == userName && p.User.FromForum == type);
+            return _users.Any(p => p.UserName == userName && p.KeeperKey == key);
         }
 
         private void addUserButton_Click(object sender, EventArgs e)
@@ -118,10 +130,10 @@ namespace SimpleForm
             {
                 return;
             }
-            if (refreshers.Any())
+            if (_users.Any())
             {
                 IsRefreshing = false;
-                refreshers.ForEach(p => p.Stop());
+                _core.Stop();
             }
             timer1.Stop();
             button1.Enabled = true;
@@ -136,16 +148,17 @@ namespace SimpleForm
                 return;
             }
 
-            if (!refreshers.Any())
+            if (!_users.Any())
             {
                 return;
             }
 
             var selectedName = userDataGridView.SelectedRows[0].Cells[0].Value as string;
+            var selectedKeeperName = userDataGridView.SelectedRows[0].Cells[1].Value as string;
             if (!string.IsNullOrWhiteSpace(selectedName))
             {
-                refreshers.RemoveAll(p => p.User.UserName == selectedName);
-                S1Manager.DelUserFromDB(selectedName);
+                _users.RemoveAll(p => p.UserName == selectedName && p.KeeperName == selectedKeeperName);
+                UserManager.DelUserFromDB(selectedName, selectedKeeperName);
 
                 RefreshDataGridView();
             }
