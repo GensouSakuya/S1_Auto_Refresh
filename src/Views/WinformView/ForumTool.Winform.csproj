@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,4 +16,5 @@
     <ProjectReference Include="..\..\PluginTemplate\PluginTemplate.csproj" />
   </ItemGroup>
 
-</Project>
+
+</Project> 
