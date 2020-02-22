@@ -30,12 +30,11 @@ namespace Plugins.ManHuaBuDang
                     reqStream.Write(bs, 0, bs.Length);
                 }
             }
-
             var res = (HttpWebResponse)req.GetResponse();
             string html = "";
             using (var st = res.GetResponseStream())
             {
-                var reader = new StreamReader(st, Encoding.GetEncoding("GBK"));
+                var reader = new StreamReader(st, Encoding.GetEncoding("GB2312"));
                 html = reader.ReadToEnd();
             }
             if (cookies.Count == 0)

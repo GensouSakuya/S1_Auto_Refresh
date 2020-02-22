@@ -1,5 +1,6 @@
 ﻿using PluginTemplate;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Plugins.ManHuaBuDang
@@ -10,6 +11,11 @@ namespace Plugins.ManHuaBuDang
     {
         public ManHuaBuDangKeeper(string initKey) : base(initKey)
         {
+        }
+
+        static ManHuaBuDangKeeper()
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         protected override int KeepOnlineIntervalSeconds => 240;
