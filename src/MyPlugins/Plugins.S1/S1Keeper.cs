@@ -9,7 +9,7 @@ namespace Plugins.S1
 {
     [PluginKey("Plugins.S1")]
     [PluginName("S1")]
-    public class S1Keeper : AbstractForumKeepper
+    public class S1Keeper : AbstractForumKeeper
     {
         private static readonly List<string> _attendanceMark = new List<string> { "study_daily_attendance-daily_attendance.html", "study_daily_attendance:daily_attendance" };
 

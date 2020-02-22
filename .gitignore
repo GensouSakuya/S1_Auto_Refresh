@@ -6,5 +6,7 @@
 bin
 obj
 /S1_Auto_Refresh/packages
+/src/packages
 PublishProfiles/
 *.user
+/src/Views/ConsoleView/Properties/launchSettings.json

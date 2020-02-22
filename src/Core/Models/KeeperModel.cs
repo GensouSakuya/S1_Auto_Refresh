@@ -1,13 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using PluginTemplate;
+using System;
 
 namespace Core.Models
 {
-    public class KeeperModel
+    internal class KeeperModel
     {
-        public int Id { get; set; }
         public string Key { get; set; }
         public string InitKey { get; set; }
+        public AbstractKeeper Keeper { get; internal set; }
+        public string Message => Keeper?.Message;
+
+        public override bool Equals(object obj)
+        {
+            return obj is KeeperModel model &&
+                   Key == model.Key &&
+                   InitKey == model.InitKey;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Key, InitKey);
+        }
     }
 }

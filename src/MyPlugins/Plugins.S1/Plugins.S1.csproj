@@ -1,15 +1,30 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.20" />
+    <PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\PluginTemplate\PluginTemplate.csproj" />
   </ItemGroup>
+  <Target Name="ILRepack" AfterTargets="Build">
+    <PropertyGroup>
+      <WorkingDirectory>$(MSBuildThisFileDirectory)bin\$(Configuration)\$(TargetFramework)</WorkingDirectory>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <AllDll Include="$(WorkingDirectory)\*.dll" ></AllDll>
+      <InputAssemblies Include="@(AllDll)" Condition="'%(Filename)' != 'PluginTemplate'" />
+    </ItemGroup>
+
+    <ILRepack OutputType="$(OutputType)" MainAssembly="$(AssemblyName).dll" OutputAssembly="$(AssemblyName).dll" InputAssemblies="@(InputAssemblies)" WorkingDirectory="$(WorkingDirectory)" />
+  </Target>
+
 
 </Project>

@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Core
 {
-    public class PluginHelper
+    internal class PluginHelper
     {
         private static List<PluginModel> _plugins;
         public static void Init(string path)
@@ -28,7 +28,7 @@ namespace Core
                 try
                 {
                     var assembly = Assembly.LoadFile(Path.GetFullPath(p));
-                    var keeperTypes = assembly.GetExportedTypes().Where(p => p.IsSubclassOf(typeof(AbstractKeepper))).ToList();
+                    var keeperTypes = assembly.DefinedTypes.Where(p => p.IsSubclassOf(typeof(AbstractKeeper))).ToList();
                     if (keeperTypes.Any())
                     {
                         keeperTypes.ForEach(kT =>
@@ -55,9 +55,9 @@ namespace Core
             return _plugins?.Find(p => p.Key == key);
         }
 
-        public static AbstractKeepper GetKeepper(PluginModel plugin, string initKey)
+        public static AbstractKeeper GetKeepper(PluginModel plugin, string initKey)
         {
-            return (AbstractKeepper)Activator.CreateInstance(plugin.Type, new object[]
+            return (AbstractKeeper)Activator.CreateInstance(plugin.Type, new object[]
             {
                 initKey
             });

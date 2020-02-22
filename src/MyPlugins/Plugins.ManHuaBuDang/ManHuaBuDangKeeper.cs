@@ -6,7 +6,7 @@ namespace Plugins.ManHuaBuDang
 {
     [PluginKey("Plugins.ManHuaBuDang")]
     [PluginName("漫画补档")]
-    public class ManHuaBuDangKeeper : AbstractForumKeepper
+    public class ManHuaBuDangKeeper : AbstractForumKeeper
     {
         public ManHuaBuDangKeeper(string initKey) : base(initKey)
         {

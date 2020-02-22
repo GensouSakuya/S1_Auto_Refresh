@@ -6,16 +6,11 @@ namespace PluginTemplate
     /// <summary>
     /// 针对论坛使用的Keeper基类，增加了一些论坛相关的字段
     /// </summary>
-    public abstract class AbstractForumKeepper:AbstractKeepper
+    public abstract class AbstractForumKeeper : AbstractKeeper
     {
-        public AbstractForumKeepper(string initKey):base(initKey)
+        public AbstractForumKeeper(string initKey) : base(initKey)
         {
             _user = JsonConvert.DeserializeObject<UserInfo>(initKey);
-        }
-
-        public override string GetInitKey()
-        {
-            return JsonConvert.SerializeObject(_user);
         }
 
         protected readonly UserInfo _user;
@@ -25,10 +20,10 @@ namespace PluginTemplate
 
         public class UserInfo
         {
-            public string UserName { get; internal set; }
-            public string Password { get; internal set; }
-            public int QuestionID { get; internal set; }
-            public string Answer { get; internal set; }
+            public string UserName { get; set; }
+            public string Password { get; set; }
+            public int QuestionID { get; set; }
+            public string Answer { get; set; }
 
             public UserInfo()
             {

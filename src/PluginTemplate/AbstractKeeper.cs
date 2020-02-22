@@ -6,13 +6,17 @@ namespace PluginTemplate
     /// <summary>
     /// 基类
     /// </summary>
-    public abstract class AbstractKeepper
+    public abstract class AbstractKeeper
     {
         #region KeepOnline
 
-        public AbstractKeepper(string initKey) { }
+        public string InitKey { get; private set; }
 
-        public abstract string GetInitKey();
+        public AbstractKeeper(string initKey)
+        {
+            InitKey = initKey;
+        }
+
         //因为设计上是在保持在线的同时检查每日签到情况
         //所以不增加用来控制是否维持在线状态的配置
 
@@ -125,6 +129,6 @@ namespace PluginTemplate
             _isStopping = true;
         }
 
-        protected string Message;
+        public string Message{ get; protected set; }
     }
 }
