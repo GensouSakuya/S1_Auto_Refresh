@@ -17,7 +17,7 @@ namespace SimpleForm
 
         delegate void RefreshDataGrid();
 
-        public Form1()
+        public Form1(string arg)
         {
             InitializeComponent();
             dataTable = new DataTable();
@@ -57,6 +57,11 @@ namespace SimpleForm
             {
                 System.Environment.Exit(0);
             };
+
+            if (arg?.ToLower() == "run")
+            {
+                Start();
+            }
         }
 
         private void RefreshUserDataGridView()
@@ -81,7 +86,7 @@ namespace SimpleForm
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Start()
         {
             if (IsRefreshing)
             {
@@ -99,6 +104,11 @@ namespace SimpleForm
             button1.Enabled = false;
             stopButton.Enabled = true;
             timer1.Start();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Start();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
