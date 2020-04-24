@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 
 namespace PluginTemplate
@@ -8,6 +9,33 @@ namespace PluginTemplate
     /// </summary>
     public abstract class AbstractKeeper
     {
+        private object _nameLock = new object();
+        private string _keeperName = null;
+
+        private string KeeperName
+        {
+            get
+            {
+                if (_keeperName == null)
+                {
+                    lock (_nameLock)
+                    {
+                        if (_keeperName == null)
+                        {
+                            _keeperName = ((PluginNameAttribute) this.GetType().GetCustomAttributes(typeof(PluginNameAttribute), true)
+                                .FirstOrDefault())?.Name;
+                        }
+
+                        if (_keeperName == null)
+                        {
+                            _keeperName = this.GetType().FullName;
+                        }
+                    }
+                }
+                return _keeperName;
+            }
+        }
+
         #region KeepOnline
 
         public string InitKey { get; private set; }
@@ -36,7 +64,7 @@ namespace PluginTemplate
             }
             catch (Exception e)
             {
-                Log($"KeepOnlineAction occured exceptions: {e.Message}");
+                Log($"[{KeeperName}]KeepOnlineAction occured exceptions: {e.Message}");
             }
         }
 
@@ -64,7 +92,7 @@ namespace PluginTemplate
                 }
                 catch (Exception e)
                 {
-                    Log($"KeepOnlineAction occured exceptions: {e.Message}");
+                    Log($"[{KeeperName}]KeepOnlineAction occured exceptions: {e.Message}");
                 }
             }
         }
@@ -83,7 +111,7 @@ namespace PluginTemplate
             }
             catch (Exception e)
             {
-                Log($"Process occured exceptions: {e.Message}");
+                Log($"[{KeeperName}]Process occured exceptions: {e.Message}");
             }
         }
 
