@@ -10,3 +10,4 @@ obj
 PublishProfiles/
 *.user
 /src/Views/ConsoleView/Properties/launchSettings.json
+launchSettings.json
