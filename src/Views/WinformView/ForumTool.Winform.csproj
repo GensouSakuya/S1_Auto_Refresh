@@ -5,6 +5,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AssemblyName>ForumTool</AssemblyName>
+    <ApplicationIcon>yjspn.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
