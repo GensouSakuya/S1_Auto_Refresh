@@ -64,7 +64,7 @@ namespace PluginTemplate
             }
             catch (Exception e)
             {
-                Log($"[{KeeperName}]KeepOnlineAction occured exceptions: {e.Message}");
+                Log($"[{KeeperName}]KeepOnlineAction occured exceptions: {e.Message}\n{e.StackTrace}");
             }
         }
 
@@ -92,7 +92,7 @@ namespace PluginTemplate
                 }
                 catch (Exception e)
                 {
-                    Log($"[{KeeperName}]KeepOnlineAction occured exceptions: {e.Message}");
+                    Log($"[{KeeperName}]DailyCheck occured exceptions: {e.Message}\n{e.StackTrace}");
                 }
             }
         }
