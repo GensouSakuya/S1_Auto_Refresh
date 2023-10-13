@@ -1,4 +1,5 @@
 ﻿using Core.Models;
+using PluginTemplate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,6 +92,17 @@ namespace Core
                     {
                         LogHelper.WriteLog(e);
                     };
+                    if (keeper is AbstractForumKeeper afk)
+                    {
+                        if(p.LoginManuallyFunc != null)
+                        {
+                            afk.RegisterCookieObtainer(p.LoginManuallyFunc);
+                        }
+                        if(p.CookieContainer != null)
+                        {
+                            afk.SetCookie(p.CookieContainer);
+                        }
+                    }
                     p.Keeper = keeper;
                 }
                 catch(Exception e)

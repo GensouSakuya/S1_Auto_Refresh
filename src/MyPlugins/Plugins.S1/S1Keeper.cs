@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PluginTemplate;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,13 +23,32 @@ namespace Plugins.S1
 
         protected override bool IsLogin()
         {
-            var html = HttpHelper.GetHtml("https://bbs.saraba1st.com/2b", true, _user.Cookies);
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-            return doc.GetElementbyId("um") != null;
+            using(var client = new RestClient())
+            {
+                var req = new RestRequest("https://bbs.saraba1st.com/2b");
+                req.CookieContainer = _user.Cookies;
+                var res = client.Get(req);
+                var html = res.Content;
+                var doc = new HtmlDocument();
+                doc.LoadHtml(html);
+                return doc.GetElementbyId("um") != null;
+            }
+        }
+
+        protected override LoginResponse LoginManually()
+        {
+            if (CookieObtainer == null)
+                throw new InvalidOperationException("LoginAndObtainCookiesManual not registered");
+            var cookies = CookieObtainer("https://bbs.saraba1st.com/2b", _user);
+            return new LoginResponse
+            {
+                IsSucceed = true,
+                Cookies = cookies
+            };
         }
 
         protected override bool IsDailyCheckInEnabled => true;
+
         protected override void DailyCheck()
         {
             var html = HttpHelper.GetHtml("https://bbs.saraba1st.com/2b", true, _user.Cookies);
@@ -69,7 +90,15 @@ namespace Plugins.S1
             //因为检查登录状态本身就是一种访问，所以不需要进行额外操作
             if (!IsLogin())
             {
-                Login();
+                if(_user.IsLoginManually)
+                {
+                    var res = LoginManually();
+                    _user.Cookies = res.Cookies;
+                }
+                else
+                {
+                    Login();
+                }
             }
         }
 

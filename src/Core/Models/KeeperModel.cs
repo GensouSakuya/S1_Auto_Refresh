@@ -1,5 +1,8 @@
 ﻿using PluginTemplate;
+using System;
 using System.Collections.Generic;
+using System.Net;
+using static PluginTemplate.AbstractForumKeeper;
 
 namespace Core.Models
 {
@@ -9,6 +12,18 @@ namespace Core.Models
         public string InitKey { get; internal set; }
         public AbstractKeeper Keeper { get; internal set; }
         public string Message => Keeper?.Message;
+        public Func<string, UserInfo, CookieContainer> LoginManuallyFunc { get; internal set; }
+        public CookieContainer CookieContainer { get; internal set; }
+
+        public void RegisterLoginManuallyFunc(Func<string, string, UserInfo, CookieContainer> func)
+        {
+            LoginManuallyFunc = (string a,UserInfo b) => func?.Invoke(this.Key, a, b); 
+        }
+
+        public void SetCookies(CookieContainer cookies)
+        {
+            CookieContainer = cookies;
+        }
 
         public override bool Equals(object obj)
         {

@@ -1,12 +1,6 @@
-﻿using Core;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SimpleForm
@@ -24,33 +18,43 @@ namespace SimpleForm
 
             forumTypeBox.DataSource = _parent._core.LoadedKeepers.Select(p => new
             {
-                ID = p.Key, Text = p.Name
+                ID = p.Key,
+                Text = p.Name
             }).ToList();
             forumTypeBox.DropDownStyle = ComboBoxStyle.DropDownList;
         }
-        
+
         private void button1_Click(object sender, EventArgs e)
         {
-            var userName = textBox1.Text;
+            var userName = userNameTextBox.Text;
             if (string.IsNullOrWhiteSpace(userName))
             {
                 MessageBox.Show("请输入用户名");
+                return;
             }
             var forumType = (string)forumTypeBox.SelectedValue;
             if (_parent.IsUserExists(userName, forumType))
             {
                 MessageBox.Show("用户已存在");
+                return;
             }
 
-            var password = textBox2.Text;
-            int questionID = (int)questionBox.SelectedValue;
-            var answer = "";
-            if (questionID != 0)
+            if (!manuallyLoginCheckBox.Checked)
             {
-                answer = textBox4.Text;
+                var password = textBox2.Text;
+                int questionID = (int)questionBox.SelectedValue;
+                var answer = "";
+                if (questionID != 0)
+                {
+                    answer = textBox4.Text;
+                }
+                _parent.AddUser(userName, password, questionID, answer, forumType);
+            }
+            else
+            {
+                _parent.AddUser(userName, forumType);
             }
 
-            _parent.AddUser(userName, password, questionID, answer, forumType);
             this.Close();
         }
 
@@ -72,6 +76,28 @@ namespace SimpleForm
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (manuallyLoginCheckBox.Checked)
+            {
+                SetLoginInfoVisible(false);
+            }
+            else
+            {
+                SetLoginInfoVisible(true);
+            }
+        }
+
+        private void SetLoginInfoVisible(bool visible)
+        {
+            label2.Visible = visible;
+            label3.Visible = visible;
+            label4.Visible = visible;
+            textBox2.Visible = visible;
+            textBox4.Visible = visible;
+            questionBox.Visible = visible;
         }
     }
 }

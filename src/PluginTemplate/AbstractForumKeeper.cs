@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Net;
 
 namespace PluginTemplate
@@ -17,6 +18,21 @@ namespace PluginTemplate
 
         protected abstract bool IsLogin();
         protected abstract void Login();
+        protected Func<string, UserInfo, CookieContainer> CookieObtainer;
+        protected virtual LoginResponse LoginManually()
+        {
+            return new LoginResponse();
+        }
+
+        public void RegisterCookieObtainer(Func<string, UserInfo, CookieContainer> func)
+        {
+            CookieObtainer = func;
+        }
+
+        public void SetCookie(CookieContainer cookies)
+        {
+            _user.Cookies = cookies;
+        }
 
         public class UserInfo
         {
@@ -24,6 +40,7 @@ namespace PluginTemplate
             public string Password { get; set; }
             public int QuestionID { get; set; }
             public string Answer { get; set; }
+            public bool IsLoginManually { get; set; }
 
             public UserInfo(UserInfo user)
             {
@@ -31,6 +48,7 @@ namespace PluginTemplate
                 Password = user.Password;
                 QuestionID = user.QuestionID;
                 Answer = user.Answer;
+                IsLoginManually = user.IsLoginManually;
             }
 
             public UserInfo()
@@ -59,5 +77,10 @@ namespace PluginTemplate
             }
         }
 
+        public class LoginResponse
+        {
+            public bool IsSucceed { get; set; }
+            public CookieContainer Cookies { get; set; }
+        }
     }
 }

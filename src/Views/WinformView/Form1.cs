@@ -4,6 +4,9 @@ using System.Data;
 using System.Linq;
 using Core;
 using System.Windows.Forms;
+using System.Net;
+using ForumTool.Winform;
+using static PluginTemplate.AbstractForumKeeper;
 
 namespace SimpleForm
 {
@@ -48,6 +51,11 @@ namespace SimpleForm
                 p.KeeperKey = model.Key;
                 p.KeeperInitKey = model.InitKey;
                 p.KeeperName = _core.LoadedKeepers.Find(q => q.Key == model.Key)?.Name;
+                model.RegisterLoginManuallyFunc(GetCookieByBrowser);
+                if (!string.IsNullOrWhiteSpace(p.RawCookies))
+                {
+                    model.SetCookies(p.GetCookieContainer());
+                }
             });
             //todo users to keepers
 
@@ -62,6 +70,24 @@ namespace SimpleForm
             {
                 Start();
             }
+        }
+
+        private CookieContainer GetCookieByBrowser(string keeperKey, string url, UserInfo user)
+        {
+            var window = new LoginWindow(keeperKey, user.UserName, url);
+            window.ShowDialog();
+            var cookies = window.Cookies;
+            var dbUser = _users.Find(p => p.KeeperKey == keeperKey && p.UserName == user.UserName);
+            if (dbUser != null)
+            {
+                using (var db = new SQLiteDb())
+                {
+                    dbUser.LoadCookies(cookies);
+                    db.Update<User>(dbUser);
+                    db.SaveChanges();
+                }
+            }
+            return cookies;
         }
 
         private void RefreshUserDataGridView()
@@ -119,6 +145,19 @@ namespace SimpleForm
         public void AddUser(string userName, string password, int questionID, string answer, string keeperKey)
         {
             var user = new User(userName, password, questionID, answer, keeperKey);
+            _users.Add(user);
+            var keeper = _core.AddKeeper(keeperKey, user.ToInitKey());
+            user.KeeperModel = keeper;
+            user.KeeperInitKey = user.ToInitKey();
+            user.KeeperName = _core.LoadedKeepers.Find(p => p.Key == keeperKey)?.Name;
+            UserManager.AddUserToDB(user);
+
+            RefreshDataGridView();
+        }
+
+        public void AddUser(string userName, string keeperKey)
+        {
+            var user = new User(userName, keeperKey, true);
             _users.Add(user);
             var keeper = _core.AddKeeper(keeperKey, user.ToInitKey());
             user.KeeperModel = keeper;

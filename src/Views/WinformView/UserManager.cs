@@ -12,6 +12,7 @@ namespace SimpleForm
                 return db.Set<User>().ToList();
             }
         }
+
         public static void DelUserFromDB(string userName,string keeperName)
         {
             using (var db = new SQLiteDb())

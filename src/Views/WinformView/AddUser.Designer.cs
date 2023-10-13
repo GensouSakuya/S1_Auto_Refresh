@@ -28,171 +28,191 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.questionModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.questionBox = new System.Windows.Forms.ComboBox();
-            this.forumTypeBox = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.questionModelBindingSource)).BeginInit();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            label4 = new System.Windows.Forms.Label();
+            textBox4 = new System.Windows.Forms.TextBox();
+            label3 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            textBox2 = new System.Windows.Forms.TextBox();
+            userNameLabel = new System.Windows.Forms.Label();
+            userNameTextBox = new System.Windows.Forms.TextBox();
+            button1 = new System.Windows.Forms.Button();
+            button2 = new System.Windows.Forms.Button();
+            questionModelBindingSource = new System.Windows.Forms.BindingSource(components);
+            questionBox = new System.Windows.Forms.ComboBox();
+            forumTypeBox = new System.Windows.Forms.ComboBox();
+            forumTypeLabel = new System.Windows.Forms.Label();
+            manuallyLoginCheckBox = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)questionModelBindingSource).BeginInit();
+            SuspendLayout();
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 128);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 15);
-            this.label4.TabIndex = 16;
-            this.label4.Text = "问题答案";
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(22, 224);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(69, 20);
+            label4.TabIndex = 16;
+            label4.Text = "问题答案";
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(85, 125);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.PasswordChar = '*';
-            this.textBox4.Size = new System.Drawing.Size(162, 25);
-            this.textBox4.TabIndex = 15;
+            textBox4.Location = new System.Drawing.Point(103, 220);
+            textBox4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            textBox4.Name = "textBox4";
+            textBox4.PasswordChar = '*';
+            textBox4.Size = new System.Drawing.Size(182, 27);
+            textBox4.TabIndex = 15;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 94);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 15);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "安全问题";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(22, 178);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(69, 20);
+            label3.TabIndex = 14;
+            label3.Text = "安全问题";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 59);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(37, 15);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "密码";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(22, 132);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(39, 20);
+            label2.TabIndex = 12;
+            label2.Text = "密码";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(85, 56);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(162, 25);
-            this.textBox2.TabIndex = 11;
+            textBox2.Location = new System.Drawing.Point(103, 128);
+            textBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            textBox2.Name = "textBox2";
+            textBox2.PasswordChar = '*';
+            textBox2.Size = new System.Drawing.Size(182, 27);
+            textBox2.TabIndex = 11;
             // 
-            // label1
+            // userNameLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 15);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "用户名";
+            userNameLabel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            userNameLabel.AutoSize = true;
+            userNameLabel.Location = new System.Drawing.Point(22, 56);
+            userNameLabel.Name = "userNameLabel";
+            userNameLabel.Size = new System.Drawing.Size(54, 20);
+            userNameLabel.TabIndex = 10;
+            userNameLabel.Text = "用户名";
             // 
-            // textBox1
+            // userNameTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(85, 19);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(162, 25);
-            this.textBox1.TabIndex = 9;
+            userNameTextBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            userNameTextBox.Location = new System.Drawing.Point(103, 53);
+            userNameTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            userNameTextBox.Name = "userNameTextBox";
+            userNameTextBox.Size = new System.Drawing.Size(182, 27);
+            userNameTextBox.TabIndex = 9;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(144, 198);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(103, 33);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "确定";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            button1.Location = new System.Drawing.Point(169, 293);
+            button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(116, 44);
+            button1.TabIndex = 17;
+            button1.Text = "确定";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(16, 198);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(103, 33);
-            this.button2.TabIndex = 18;
-            this.button2.Text = "取消";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // questionModelBindingSource
-            // 
-            this.questionModelBindingSource.DataSource = typeof(QuestionModel);
+            button2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            button2.Location = new System.Drawing.Point(12, 293);
+            button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            button2.Name = "button2";
+            button2.Size = new System.Drawing.Size(116, 44);
+            button2.TabIndex = 18;
+            button2.Text = "取消";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // questionBox
             // 
-            this.questionBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.questionModelBindingSource, "ID", true));
-            this.questionBox.DataSource = this.questionModelBindingSource;
-            this.questionBox.DisplayMember = "Text";
-            this.questionBox.FormattingEnabled = true;
-            this.questionBox.Location = new System.Drawing.Point(85, 91);
-            this.questionBox.Name = "questionBox";
-            this.questionBox.Size = new System.Drawing.Size(162, 23);
-            this.questionBox.TabIndex = 20;
-            this.questionBox.ValueMember = "ID";
-            this.questionBox.SelectedIndexChanged += new System.EventHandler(this.QuestionBox_SelectedIndexChanged);
+            //questionBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", questionModelBindingSource, "ID", true));
+            questionBox.DisplayMember = "Text";
+            questionBox.FormattingEnabled = true;
+            questionBox.Location = new System.Drawing.Point(103, 174);
+            questionBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            questionBox.Name = "questionBox";
+            questionBox.Size = new System.Drawing.Size(182, 28);
+            questionBox.TabIndex = 20;
+            questionBox.ValueMember = "ID";
+            questionBox.SelectedIndexChanged += QuestionBox_SelectedIndexChanged;
             // 
             // forumTypeBox
             // 
-            this.forumTypeBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.questionModelBindingSource, "ID", true));
-            this.forumTypeBox.DataSource = this.questionModelBindingSource;
-            this.forumTypeBox.DisplayMember = "Text";
-            this.forumTypeBox.FormattingEnabled = true;
-            this.forumTypeBox.Location = new System.Drawing.Point(85, 156);
-            this.forumTypeBox.Name = "forumTypeBox";
-            this.forumTypeBox.Size = new System.Drawing.Size(162, 23);
-            this.forumTypeBox.TabIndex = 22;
-            this.forumTypeBox.ValueMember = "ID";
-            this.forumTypeBox.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
+            forumTypeBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            //forumTypeBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", questionModelBindingSource, "ID", true));
+            forumTypeBox.DisplayMember = "Text";
+            forumTypeBox.FormattingEnabled = true;
+            forumTypeBox.Location = new System.Drawing.Point(103, 14);
+            forumTypeBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            forumTypeBox.Name = "forumTypeBox";
+            forumTypeBox.Size = new System.Drawing.Size(182, 28);
+            forumTypeBox.TabIndex = 22;
+            forumTypeBox.ValueMember = "ID";
+            forumTypeBox.SelectedIndexChanged += ComboBox1_SelectedIndexChanged;
             // 
-            // label5
+            // forumTypeLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 159);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(37, 15);
-            this.label5.TabIndex = 21;
-            this.label5.Text = "论坛";
-            this.label5.Click += new System.EventHandler(this.Label5_Click);
+            forumTypeLabel.AutoSize = true;
+            forumTypeLabel.Location = new System.Drawing.Point(22, 17);
+            forumTypeLabel.Name = "forumTypeLabel";
+            forumTypeLabel.Size = new System.Drawing.Size(39, 20);
+            forumTypeLabel.TabIndex = 21;
+            forumTypeLabel.Text = "论坛";
+            forumTypeLabel.Click += Label5_Click;
+            // 
+            // manuallyLoginCheckBox
+            // 
+            manuallyLoginCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            manuallyLoginCheckBox.AutoSize = true;
+            manuallyLoginCheckBox.Location = new System.Drawing.Point(22, 90);
+            manuallyLoginCheckBox.Name = "manuallyLoginCheckBox";
+            manuallyLoginCheckBox.Size = new System.Drawing.Size(121, 24);
+            manuallyLoginCheckBox.TabIndex = 23;
+            manuallyLoginCheckBox.Text = "是否手动登录";
+            manuallyLoginCheckBox.UseVisualStyleBackColor = true;
+            manuallyLoginCheckBox.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // AddUser
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(264, 243);
-            this.ControlBox = false;
-            this.Controls.Add(this.forumTypeBox);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.questionBox);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "AddUser";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
-            this.Text = "AddUser";
-            ((System.ComponentModel.ISupportInitialize)(this.questionModelBindingSource)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(297, 350);
+            ControlBox = false;
+            Controls.Add(manuallyLoginCheckBox);
+            Controls.Add(forumTypeBox);
+            Controls.Add(forumTypeLabel);
+            Controls.Add(questionBox);
+            Controls.Add(button2);
+            Controls.Add(button1);
+            Controls.Add(label4);
+            Controls.Add(textBox4);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(textBox2);
+            Controls.Add(userNameLabel);
+            Controls.Add(userNameTextBox);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "AddUser";
+            ShowIcon = false;
+            ShowInTaskbar = false;
+            Text = "AddUser";
+            ((System.ComponentModel.ISupportInitialize)questionModelBindingSource).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -202,13 +222,14 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label userNameLabel;
+        private System.Windows.Forms.TextBox userNameTextBox;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.BindingSource questionModelBindingSource;
         private System.Windows.Forms.ComboBox questionBox;
         private System.Windows.Forms.ComboBox forumTypeBox;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label forumTypeLabel;
+        private System.Windows.Forms.CheckBox manuallyLoginCheckBox;
     }
 }
