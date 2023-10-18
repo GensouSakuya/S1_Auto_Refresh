@@ -77,6 +77,8 @@ namespace SimpleForm
             var window = new LoginWindow(keeperKey, user.UserName, url);
             window.ShowDialog();
             var cookies = window.Cookies;
+            if (cookies == null)
+                throw new Exception("not login");
             var dbUser = _users.Find(p => p.KeeperKey == keeperKey && p.UserName == user.UserName);
             if (dbUser != null)
             {

@@ -8,7 +8,7 @@ namespace ForumTool.Winform
     public partial class LoginWindow : Form
     {
         private string _url;
-        private CookieContainer _cookieContainer = new CookieContainer();
+        private CookieContainer _cookieContainer;
         public CookieContainer Cookies => _cookieContainer;
         public ChromiumWebBrowser _chromeBrowser;
         public LoginWindow(string keeperKey, string userName, string url)
@@ -22,15 +22,19 @@ namespace ForumTool.Winform
 
         private void LoginWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            using(var cookiemanager = _chromeBrowser.GetCookieManager())
-            using(var visitor = new TaskCookieVisitor())
+            if (_pageChangedCount>=1)
             {
-                cookiemanager.VisitAllCookies(visitor);
-                var list = visitor.Task.GetAwaiter().GetResult();
-                list.ForEach(c =>
+                _cookieContainer = new CookieContainer();
+                using (var cookiemanager = _chromeBrowser.GetCookieManager())
+                using (var visitor = new TaskCookieVisitor())
                 {
-                    _cookieContainer.Add(new System.Net.Cookie(c.Name, c.Value, c.Path, c.Domain));
-                });
+                    cookiemanager.VisitAllCookies(visitor);
+                    var list = visitor.Task.GetAwaiter().GetResult();
+                    list.ForEach(c =>
+                    {
+                        _cookieContainer.Add(new System.Net.Cookie(c.Name, c.Value, c.Path, c.Domain));
+                    });
+                }
             }
         }
 
@@ -46,6 +50,14 @@ namespace ForumTool.Winform
             _chromeBrowser = new ChromiumWebBrowser(_url);
             this.Controls.Add(_chromeBrowser);
             _chromeBrowser.Dock = DockStyle.Fill;
+            _chromeBrowser.AddressChanged += _chromeBrowser_AddressChanged;
+        }
+
+        private int _pageChangedCount = -1;
+
+        private void _chromeBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
+        {
+            _pageChangedCount++;
         }
     }
 }
