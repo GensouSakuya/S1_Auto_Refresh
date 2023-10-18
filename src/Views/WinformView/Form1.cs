@@ -152,6 +152,7 @@ namespace SimpleForm
             user.KeeperModel = keeper;
             user.KeeperInitKey = user.ToInitKey();
             user.KeeperName = _core.LoadedKeepers.Find(p => p.Key == keeperKey)?.Name;
+            keeper.RegisterLoginManuallyFunc(GetCookieByBrowser);
             UserManager.AddUserToDB(user);
 
             RefreshDataGridView();
