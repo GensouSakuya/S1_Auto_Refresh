@@ -25,7 +25,7 @@ namespace Plugins.S1
         {
             using(var client = new RestClient())
             {
-                var req = new RestRequest("https://bbs.saraba1st.com/2b");
+                var req = new RestRequest("https://bbs.saraba1st.com/2b/");
                 req.CookieContainer = _user.Cookies;
                 var res = client.Get(req);
                 var html = res.Content;
@@ -39,7 +39,7 @@ namespace Plugins.S1
         {
             if (CookieObtainer == null)
                 throw new InvalidOperationException("LoginAndObtainCookiesManual not registered");
-            var cookies = CookieObtainer("https://bbs.saraba1st.com/2b", _user);
+            var cookies = CookieObtainer("https://bbs.saraba1st.com/2b/", _user);
             return new LoginResponse
             {
                 IsSucceed = true,
@@ -51,7 +51,7 @@ namespace Plugins.S1
 
         protected override void DailyCheck()
         {
-            var html = HttpHelper.GetHtml("https://bbs.saraba1st.com/2b", true, _user.Cookies);
+            var html = HttpHelper.GetHtml("https://bbs.saraba1st.com/2b/", true, _user.Cookies);
             if (HasCheck(html))
             {
                 var hashUrl = GetCheckFormHashUrl(html);
