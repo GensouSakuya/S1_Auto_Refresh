@@ -24,7 +24,7 @@ namespace Core
         {
             get
             {
-                var html = HttpHelper.GetHtml("https://bbs.saraba1st.com/2b", true, _user.Cookies);
+                var html = HttpHelper.GetHtml("https://bbs.saraba1st.com/2b/", true, _user.Cookies);
                 var doc = new HtmlDocument();
                 doc.LoadHtml(html);
                 return doc.GetElementbyId("um") != null;
@@ -57,7 +57,7 @@ namespace Core
         public override void Login()
         {
             var res = HttpHelper.GetHtml(
-                   $"http://bbs.saraba1st.com/2b/api/mobile/index.php?mobile=no&version=1&module=login&loginsubmit=yes&loginfield=auto&submodule=checkpost&username={_user.UserName}&password={_user.Password}&questionid={_user.QuestionID}&answer={_user.Answer}",
+                   $"https://bbs.saraba1st.com/2b/api/mobile/index.php?mobile=no&version=1&module=login&loginsubmit=yes&loginfield=auto&submodule=checkpost&username={_user.UserName}&password={_user.Password}&questionid={_user.QuestionID}&answer={_user.Answer}",
                    false, _user.Cookies);
             var result = (JObject)JsonConvert.DeserializeObject(res);
             SetStatus(result["Message"]["messageval"].ToString(), _user);
@@ -67,7 +67,7 @@ namespace Core
         {
             try
             {
-                var html = HttpHelper.GetHtml("https://bbs.saraba1st.com/2b", true, _user.Cookies);
+                var html = HttpHelper.GetHtml("https://bbs.saraba1st.com/2b/", true, _user.Cookies);
                 if (HasCheck(html))
                 {
                     var hashUrl = GetCheckFormHashUrl(html);
