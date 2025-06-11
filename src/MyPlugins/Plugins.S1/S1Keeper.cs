@@ -13,6 +13,7 @@ namespace Plugins.S1
     [PluginName("S1")]
     public class S1Keeper : AbstractForumKeeper
     {
+        private const string HOST = "https://stage1st.com";
         private static readonly List<string> _attendanceMark = new List<string> { "study_daily_attendance-daily_attendance.html", "study_daily_attendance:daily_attendance" };
 
         public S1Keeper(string initKey) : base(initKey)
@@ -25,7 +26,7 @@ namespace Plugins.S1
         {
             using(var client = new RestClient())
             {
-                var req = new RestRequest("https://bbs.saraba1st.com/2b/");
+                var req = new RestRequest($"{HOST}/2b/");
                 req.CookieContainer = _user.Cookies;
                 var res = client.Get(req);
                 var html = res.Content;
@@ -39,7 +40,7 @@ namespace Plugins.S1
         {
             if (CookieObtainer == null)
                 throw new InvalidOperationException("LoginAndObtainCookiesManual not registered");
-            var cookies = CookieObtainer("https://bbs.saraba1st.com/2b/", _user);
+            var cookies = CookieObtainer($"{HOST}/2b/", _user);
             return new LoginResponse
             {
                 IsSucceed = true,
@@ -51,11 +52,11 @@ namespace Plugins.S1
 
         protected override void DailyCheck()
         {
-            var html = HttpHelper.GetHtml("https://bbs.saraba1st.com/2b/", true, _user.Cookies);
+            var html = HttpHelper.GetHtml($"{HOST}/2b/", true, _user.Cookies);
             if (HasCheck(html))
             {
                 var hashUrl = GetCheckFormHashUrl(html);
-                HttpHelper.GetHtml($"https://bbs.saraba1st.com/2b/{hashUrl}", true, _user.Cookies);
+                HttpHelper.GetHtml($"{HOST}/2b/{hashUrl}", true, _user.Cookies);
             }
         }
 
@@ -105,7 +106,7 @@ namespace Plugins.S1
         protected override void Login()
         {
             var res = HttpHelper.GetHtml(
-                $"http://bbs.saraba1st.com/2b/api/mobile/index.php?mobile=no&version=1&module=login&loginsubmit=yes&loginfield=auto&submodule=checkpost&username={_user.UserName}&password={_user.Password}&questionid={_user.QuestionID}&answer={_user.Answer}",
+                $"{HOST}/2b/api/mobile/index.php?mobile=no&version=1&module=login&loginsubmit=yes&loginfield=auto&submodule=checkpost&username={_user.UserName}&password={_user.Password}&questionid={_user.QuestionID}&answer={_user.Answer}",
                 false, _user.Cookies);
             var result = (JObject)JsonConvert.DeserializeObject(res);
             SetStatus(result["Message"]["messageval"].ToString());
