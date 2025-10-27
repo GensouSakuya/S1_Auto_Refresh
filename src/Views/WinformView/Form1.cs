@@ -7,11 +7,13 @@ using System.Windows.Forms;
 using System.Net;
 using ForumTool.Winform;
 using static PluginTemplate.AbstractForumKeeper;
+using System.ComponentModel;
 
 namespace SimpleForm
 {
     public partial class Form1 : Form
     {
+        [DefaultValue(null)]
         public KeeperCore _core { get; private set; }
         private List<User> _users = new List<User>();
         private DataTable dataTable;
