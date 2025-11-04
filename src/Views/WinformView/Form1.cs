@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Core;
+using ForumTool.Winform;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using Core;
-using System.Windows.Forms;
 using System.Net;
-using ForumTool.Winform;
+using System.Windows.Forms;
 using static PluginTemplate.AbstractForumKeeper;
-using System.ComponentModel;
 
 namespace SimpleForm
 {
@@ -67,6 +67,8 @@ namespace SimpleForm
             {
                 System.Environment.Exit(0);
             };
+
+            
 
             if (arg?.ToLower() == "run")
             {
@@ -233,21 +235,18 @@ namespace SimpleForm
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (WindowState == FormWindowState.Minimized)
-            {
-                WindowState = FormWindowState.Normal;
-                this.Activate();
-                this.ShowInTaskbar = true;
-                this.Visible = true;
-                notifyIcon1.Visible = false;
-            }
+            WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;
+            this.Visible = true;
+            notifyIcon1.Visible = false;
+            this.Activate();
         }
 
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
             {
-                this.ShowInTaskbar = false;
+                //this.ShowInTaskbar = false;
                 this.Visible = false;
                 notifyIcon1.Visible = true;
             }
