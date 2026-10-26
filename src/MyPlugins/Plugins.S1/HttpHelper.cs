@@ -6,7 +6,7 @@ namespace Plugins.S1
 {
     internal class HttpHelper
     {
-        public static string GetHtml(string url,bool isGet, CookieContainer cookies)
+        public static string GetHtml(string url,bool isGet, CookieContainer cookies, string postData = null)
         {
             var req = (HttpWebRequest)WebRequest.Create(url);
 
@@ -20,6 +20,17 @@ namespace Plugins.S1
             }
 
             req.Method = isGet ? "GET" : "POST";
+
+            if (!isGet)
+            {
+                var data = Encoding.UTF8.GetBytes(postData ?? "");
+                req.ContentType = "application/x-www-form-urlencoded";
+                req.ContentLength = data.Length;
+                using (var rs = req.GetRequestStream())
+                {
+                    rs.Write(data, 0, data.Length);
+                }
+            }
 
             var res = (HttpWebResponse)req.GetResponse();
             string html = "";

@@ -14,7 +14,8 @@ namespace Plugins.S1
     public class S1Keeper : AbstractForumKeeper
     {
         private const string HOST = "https://stage1st.com";
-        private static readonly List<string> _attendanceMark = new List<string> { "study_daily_attendance-daily_attendance.html", "study_daily_attendance:daily_attendance" };
+        private const string CHECKIN_PAGE = HOST + "/2b/muanyun_053-muanyun_053.html";
+        private const string CHECKIN_API = HOST + "/2b/plugin.php?id=muanyun_053&op=checkin";
 
         public S1Keeper(string initKey) : base(initKey)
         {
@@ -24,23 +25,36 @@ namespace Plugins.S1
 
         protected override bool IsLogin()
         {
-            using(var client = new RestClient())
+            return IsLoginHtml(GetCheckInPage());
+        }
+
+        private string GetCheckInPage()
+        {
+            using (var client = new RestClient())
             {
-                var req = new RestRequest($"{HOST}/2b/");
+                var req = new RestRequest(CHECKIN_PAGE);
                 req.CookieContainer = _user.Cookies;
-                var res = client.Get(req);
-                var html = res.Content;
-                var doc = new HtmlDocument();
-                doc.LoadHtml(html);
-                return doc.GetElementbyId("um") != null;
+                return client.Get(req).Content;
             }
+        }
+
+        private static bool IsLoginHtml(string html)
+        {
+            return ParseHtml(html).GetElementbyId("um") != null;
+        }
+
+        private static HtmlDocument ParseHtml(string html)
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html ?? "");
+            return doc;
         }
 
         protected override LoginResponse LoginManually()
         {
             if (CookieObtainer == null)
                 throw new InvalidOperationException("LoginAndObtainCookiesManual not registered");
-            var cookies = CookieObtainer($"{HOST}/2b/", _user);
+            var cookies = CookieObtainer(CHECKIN_PAGE, _user);
             return new LoginResponse
             {
                 IsSucceed = true,
@@ -52,43 +66,24 @@ namespace Plugins.S1
 
         protected override void DailyCheck()
         {
-            var html = HttpHelper.GetHtml($"{HOST}/2b/", true, _user.Cookies);
+            var html = GetCheckInPage();
             if (HasCheck(html))
             {
-                var hashUrl = GetCheckFormHashUrl(html);
-                HttpHelper.GetHtml($"{HOST}/2b/{hashUrl}", true, _user.Cookies);
+                var formhash = ParseHtml(html).DocumentNode.SelectSingleNode("//input[@name='formhash']")?.GetAttributeValue("value", null);
+                var body = string.IsNullOrEmpty(formhash)
+                    ? "checkinsubmit=1"
+                    : $"formhash={Uri.EscapeDataString(formhash)}&checkinsubmit=1";
+                HttpHelper.GetHtml(CHECKIN_API, false, _user.Cookies, body);
             }
         }
 
         private static bool HasCheck(string html)
         {
-            return html.Contains("打卡签到");
-        }
-
-        private static string GetCheckFormHashUrl(string html)
-        {
-            List<string> checkedHtml = null;
-            var splitedHtml = html.Split('\n');
-            foreach (var mark in _attendanceMark)
-            {
-                if (splitedHtml.Any(p => p.Contains(mark)))
-                {
-                    checkedHtml = splitedHtml.Where(p => p.Contains(mark)).FirstOrDefault()
-                        ?.Split('"').ToList();
-                    break;
-                }
-            }
-            var checkMatchedCount = checkedHtml?.Count() ?? 0;
-            if (checkMatchedCount > 2)
-            {
-                return System.Web.HttpUtility.HtmlDecode(checkedHtml[1]); ;
-            }
-            return null;
+            return ParseHtml(html).DocumentNode.SelectSingleNode("//*[@name='checkinsubmit']") != null;
         }
 
         protected override void KeepOnline()
         {
-            //因为检查登录状态本身就是一种访问，所以不需要进行额外操作
             if (!IsLogin())
             {
                 if(_user.IsLoginManually)
